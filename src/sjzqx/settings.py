@@ -29,8 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '120.27.4.198',
-    '192.168.1.104',
+    '192.168.1.101'
 ]
 
 
@@ -150,9 +149,7 @@ INSTALLED_APPS = (
     'djangocms_snippet',
     'djangocms_googlemap',
     'djangocms_video',
-
     'weather',
-
     'sjzqx'
 )
 

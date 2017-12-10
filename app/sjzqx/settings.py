@@ -18,7 +18,6 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -26,13 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'qmr(o^(h5lf254x_3o#50hod-*j-5c!#4tf9*(+9cl)5j!ry@n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    '192.168.1.104',
-    '120.27.4.198',
-    '192.168.1.106',
+    '*'
 ]
 
 
@@ -89,21 +85,21 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'django.template.context_processors.i18n',
-    'django.template.context_processors.debug',
-    'django.template.context_processors.request',
-    'django.template.context_processors.media',
-    'django.template.context_processors.csrf',
-    'django.template.context_processors.tz',
-    'sekizai.context_processors.sekizai',
-    'django.template.context_processors.static',
-    'cms.context_processors.cms_settings'
+                'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.template.context_processors.media',
+                'django.template.context_processors.csrf',
+                'django.template.context_processors.tz',
+                'sekizai.context_processors.sekizai',
+                'django.template.context_processors.static',
+                'cms.context_processors.cms_settings'
             ],
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-    'django.template.loaders.eggs.Loader'
+                'django.template.loaders.app_directories.Loader',
+                'django.template.loaders.eggs.Loader'
             ],
         },
     },
@@ -152,9 +148,8 @@ INSTALLED_APPS = (
     'djangocms_snippet',
     'djangocms_googlemap',
     'djangocms_video',
-
+    'ckeditor',
     'weather',
-
     'sjzqx'
 )
 
@@ -163,6 +158,7 @@ LANGUAGES = (
     ('zh', gettext('zh')),
 )
 
+# django-cms settings
 CMS_LANGUAGES = {
     ## Customize this
     1: [
@@ -192,6 +188,7 @@ CMS_PERMISSION = True
 
 CMS_PLACEHOLDER_CONF = {}
 
+# DataBase settings
 DATABASES = {
     'default': {
         'CONN_MAX_AGE': 0,
@@ -205,7 +202,7 @@ DATABASES = {
 }
 
 MIGRATION_MODULES = {
-    
+
 }
 
 THUMBNAIL_PROCESSORS = (
@@ -214,3 +211,10 @@ THUMBNAIL_PROCESSORS = (
     'filer.thumbnail_processors.scale_and_crop_with_subject_location',
     'easy_thumbnails.processors.filters'
 )
+
+# CKeditor settings
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}

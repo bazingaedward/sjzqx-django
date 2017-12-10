@@ -30,18 +30,24 @@
             top: 10px;
             font-weight: bold;
         }
+        #layer_switch {
+          text-align: center;
+        }
     </style>
 </head>
 <body>
 <div class="easyui-navpanel" style="background-color: #f3f3f3">
+    <div id="layer_switch">
+      <input class="easyui-switchbutton" id="sb">
+    </div>
     <div id="map"></div>
     <footer>
         <div id="navbar" class="m-buttongroup m-buttongroup-justified" style="width:100%">
-            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true">气温</a>
-            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true">湿度</a>
-            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true">降水</a>
-            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true">能见度</a>
-            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true">风</a>
+            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true" data-button="1">气温(℃)</a>
+            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true" data-button="2">相对湿度(%)</a>
+            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true" data-button="3">降水(mm)</a>
+            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true" data-button="4">能见度(km)</a>
+            <a href="#" class="easyui-linkbutton" data-options="size:'large',plain:true" data-button="5">风速(m/s)</a>
         </div>
     </footer>
     <div id="timeinfo">石家庄实时天气</div>

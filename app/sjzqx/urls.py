@@ -19,12 +19,13 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),  # NOQA
+    url(r'^plot/$', 'weather.views.plot'),
     url(r'^realtime/$', 'weather.views.realtime'),
     url(r'^realtime_latest/$', 'weather.views.realtime_latest'),
     url(r'^realtime_data/(.*)', 'weather.views.realtime_data'),
     url(r'^radar/$', 'weather.views.radar'),
-    url(r'^', 'weather.views.realtime'),
-    # url(r'^', include('cms.urls')),
+    url(r'^$', 'weather.views.realtime'),
+    url(r'^', include('cms.urls')),
 )
 
 # This is only needed when using runserver.

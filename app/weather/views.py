@@ -1,7 +1,8 @@
-import requests, bs4, os
+import requests, bs4, os, json
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.conf import settings
+from . import plot as pl
 
 
 def realtime(request):
@@ -52,3 +53,26 @@ def radar(request):
     return render(request, 'weather/radar.html', {
         'html': html
     })
+
+def plot(request):
+    data = request.GET
+    jsonPath = os.path.join('../data/data_per5min', data['date'], data['filename'])
+    # jsonPath = '../data/data_per5min/2017/07/29/merged_data_GMT-8_20170729165000.json'
+    xi, yi,zi = pl.Preprocessing(jsonPath=jsonPath, var=data['var'])
+    # plot option
+    if data['var'] == 'TEM':
+        name = pl.plotTempature(xi, yi, zi, save_dir=data['save_dir'])
+    elif data['var'] == 'RHU':
+        name = pl.plotHumidity(xi, yi, zi, save_dir=data['save_dir'])
+    elif data['var'] == 'PRE':
+        name = pl.plotPrecipitation(xi, yi, zi, save_dir=data['save_dir'])
+    elif data['var'] == 'VIS_HOR_1MI':
+        name = pl.plotVisibility(xi, yi, zi, save_dir=data['save_dir'])
+    else:
+        name = pl.plotWind(xi, yi, zi, save_dir=data['save_dir'])
+
+    content = {
+        'imgName':name
+    }
+
+    return JsonResponse(content)
