@@ -107,7 +107,6 @@ TEMPLATES = [
 
 
 MIDDLEWARE_CLASSES = (
-    'cms.middleware.utils.ApphookReloadMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -115,10 +114,11 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'cms.middleware.user.CurrentUserMiddleware',
-    'cms.middleware.page.CurrentPageMiddleware',
-    'cms.middleware.toolbar.ToolbarMiddleware',
-    'cms.middleware.language.LanguageCookieMiddleware'
+    # 'cms.middleware.utils.ApphookReloadMiddleware',
+    # 'cms.middleware.user.CurrentUserMiddleware',
+    # 'cms.middleware.page.CurrentPageMiddleware',
+    # 'cms.middleware.toolbar.ToolbarMiddleware',
+    # 'cms.middleware.language.LanguageCookieMiddleware'
 )
 
 INSTALLED_APPS = (
@@ -135,19 +135,19 @@ INSTALLED_APPS = (
     'menus',
     'sekizai',
     'treebeard',
-    'djangocms_text_ckeditor',
-    'filer',
-    'easy_thumbnails',
-    'djangocms_column',
-    'djangocms_link',
-    'cmsplugin_filer_file',
-    'cmsplugin_filer_folder',
-    'cmsplugin_filer_image',
-    'cmsplugin_filer_utils',
-    'djangocms_style',
-    'djangocms_snippet',
-    'djangocms_googlemap',
-    'djangocms_video',
+    # 'djangocms_text_ckeditor',
+    # 'filer',
+    # 'easy_thumbnails',
+    # 'djangocms_column',
+    # 'djangocms_link',
+    # 'cmsplugin_filer_file',
+    # 'cmsplugin_filer_folder',
+    # 'cmsplugin_filer_image',
+    # 'cmsplugin_filer_utils',
+    # 'djangocms_style',
+    # 'djangocms_snippet',
+    # 'djangocms_googlemap',
+    # 'djangocms_video',
     'ckeditor',
     'weather',
     'sjzqx'
@@ -159,34 +159,34 @@ LANGUAGES = (
 )
 
 # django-cms settings
-CMS_LANGUAGES = {
-    ## Customize this
-    1: [
-        {
-            'name': gettext('zh'),
-            'public': True,
-            'hide_untranslated': False,
-            'redirect_on_fallback': True,
-            'code': 'zh',
-        },
-    ],
-    'default': {
-        'public': True,
-        'hide_untranslated': False,
-        'redirect_on_fallback': True,
-    },
-}
-
-CMS_TEMPLATES = (
-    ## Customize this
-    ('fullwidth.html', 'Fullwidth'),
-    ('sidebar_left.html', 'Sidebar Left'),
-    ('sidebar_right.html', 'Sidebar Right')
-)
-
-CMS_PERMISSION = True
-
-CMS_PLACEHOLDER_CONF = {}
+# CMS_LANGUAGES = {
+#     ## Customize this
+#     1: [
+#         {
+#             'name': gettext('zh'),
+#             'public': True,
+#             'hide_untranslated': False,
+#             'redirect_on_fallback': True,
+#             'code': 'zh',
+#         },
+#     ],
+#     'default': {
+#         'public': True,
+#         'hide_untranslated': False,
+#         'redirect_on_fallback': True,
+#     },
+# }
+#
+# CMS_TEMPLATES = (
+#     ## Customize this
+#     ('fullwidth.html', 'Fullwidth'),
+#     ('sidebar_left.html', 'Sidebar Left'),
+#     ('sidebar_right.html', 'Sidebar Right')
+# )
+#
+# CMS_PERMISSION = True
+#
+# CMS_PLACEHOLDER_CONF = {}
 
 # DataBase settings
 DATABASES = {

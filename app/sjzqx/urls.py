@@ -25,7 +25,7 @@ urlpatterns += i18n_patterns(
     url(r'^realtime_data/(.*)', 'weather.views.realtime_data'),
     url(r'^radar/$', 'weather.views.radar'),
     url(r'^$', 'weather.views.realtime'),
-    url(r'^cms', include('cms.urls')),
+    # url(r'^cms', include('cms.urls')),
 )
 
 # This is only needed when using runserver.
