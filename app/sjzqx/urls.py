@@ -24,6 +24,7 @@ urlpatterns += i18n_patterns(
     url(r'^realtime_latest/$', 'weather.views.realtime_latest'),
     url(r'^realtime_data/(.*)', 'weather.views.realtime_data'),
     url(r'^radar/$', 'weather.views.radar'),
+    url(r'^wx/list$', 'sjzqx.views.wx_list'),
     url(r'^$', 'weather.views.realtime'),
     # url(r'^cms', include('cms.urls')),
 )

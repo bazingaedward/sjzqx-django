@@ -8,8 +8,8 @@ class CategoryAdmin(admin.ModelAdmin):
 class CategoryExtensionAdmin(PageExtensionAdmin):
     pass
 
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(CategoryExtension, CategoryExtensionAdmin)
+admin.site.register(Category)
+# admin.site.register(CategoryExtension, CategoryExtensionAdmin)
 
 class YbyjAdmin(admin.ModelAdmin):
     pass
