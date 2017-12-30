@@ -10,6 +10,11 @@ def realtime(request):
         'DEBUG': settings.DEBUG,
     })
 
+def trend(request):
+    return render(request, 'weather/trend.html', {
+        'DEBUG': settings.DEBUG,
+    })
+
 
 def realtime_latest(request):
     content = ''
@@ -45,12 +50,42 @@ def radar(request):
         soup.find_all('div', class_='lddzcz')[0]['style'] = 'display:none'
         soup.find_all('div', class_='title')[0]['style'] = 'display:none'
         soup.find_all('ul', class_='weather')[0]['style'] = 'display:none'
+        soup.find_all('div', class_='r-x-box')[0]['style'] = 'display:none'
+        soup.find(id="rank2014")['style'] = 'display:none'
+        soup.find(id="mainContainer")['style'] = 'left:0;top:0;width:100%;position: absolute;'
 
         html = soup.prettify()
     except:
         pass
 
     return render(request, 'weather/radar.html', {
+        'html': html
+    })
+
+def satellite(request):
+    url = 'http://www.weather.com.cn/satellite/index.shtml'
+
+    html = '<b>暂时不能获取卫星云图数据！</b>'
+
+    try:
+        r = requests.get(url)
+        soup = bs4.BeautifulSoup(r.text, 'html.parser')
+
+        # soup.find_all('div', class_='weather_li')[0]['style'] = 'display:none'
+        # soup.find_all('div', class_='weather_li_head')[0]['style'] = 'display:none'
+        soup.find_all('div', class_='footer')[0]['style'] = 'display:none'
+        soup.find_all('div', class_='tqyb_left')[0]['style'] = 'display:none'
+        soup.find_all('div', class_='lddzcz')[0]['style'] = 'display:none'
+        # soup.find_all('div', class_='title')[0]['style'] = 'display:none'
+        soup.find_all('ul', class_='weather')[0]['style'] = 'display:none'
+        soup.find_all('div', class_='r-x-box')[0]['style'] = 'display:none'
+        # soup.find(id="mainContainer")['style'] = 'left:0;top:0;width:100%;position: absolute;'
+
+        html = soup.prettify()
+    except:
+        pass
+
+    return render(request, 'weather/satellite.html', {
         'html': html
     })
 

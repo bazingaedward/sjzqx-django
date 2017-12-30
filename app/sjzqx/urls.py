@@ -21,9 +21,11 @@ urlpatterns += i18n_patterns(
     url(r'^admin/', include(admin.site.urls)),  # NOQA
     url(r'^plot/$', 'weather.views.plot'),
     url(r'^realtime/$', 'weather.views.realtime'),
+    url(r'^trend/$', 'weather.views.trend'),
     url(r'^realtime_latest/$', 'weather.views.realtime_latest'),
     url(r'^realtime_data/(.*)', 'weather.views.realtime_data'),
     url(r'^radar/$', 'weather.views.radar'),
+    url(r'^satellite/$', 'weather.views.satellite'),
     url(r'^wx/list$', 'sjzqx.views.wx_list'),
     url(r'^$', 'weather.views.realtime'),
     # url(r'^cms', include('cms.urls')),
