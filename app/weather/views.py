@@ -15,6 +15,11 @@ def trend(request):
         'DEBUG': settings.DEBUG,
     })
 
+def air(request):
+    return render(request, 'weather/air.html', {
+        'DEBUG': settings.DEBUG,
+    })
+
 
 def realtime_latest(request):
     content = ''

@@ -1,0 +1,205 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="zh">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>天气趋势</title>
+      <style>
+        body {
+          background: url(http://image.nmc.cn/static2/site/nmc/themes/basic/images/forecast/forecast_bg.png) no-repeat fixed center top;
+        }
+        #weather-table {
+          color: #fff;
+          background: rgba(105,192,255,0.5);
+          width: 100%;
+          text-align: center;
+          font-size: 14px;
+          line-height: 35px;
+          border-collapse: collapse;
+          margin-top: 30px;
+        }
+        #weather-table td {
+          border: 1px solid rgba(255,255,255,0.3);
+        }
+      </style>
+  </head>
+  <body>
+    <!-- 图表容器 DOM -->
+    <div id="container" style="min-width: 400px;height:300px;"></div>
+    <table id="weather-table">
+      <tbody>
+        <tr>
+          <td>预报日期</td>
+        </tr>
+        <tr>
+          <td>白天</td>
+        </tr>
+        <tr>
+          <td>晚上</td>
+        </tr>
+        <tr>
+          <td>最高温度(℃)</td>
+        </tr>
+        <tr>
+          <td>最低温度(℃)</td>
+        </tr>
+        <tr>
+          <td>降水概率(%)</td>
+        </tr>
+        <tr>
+          <td>风速(km/h)</td>
+        </tr>
+        <tr>
+          <td>风向</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <script type="text/javascript" src="{% static 'weather/jquery-easyui-1.5.2/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'weather/hmac-sha1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'weather/TableColumn.js' %}"></script>
+    <!-- 引入 highcharts.js -->
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script>
+
+      // 心知天气api:<https://www.seniverse.com/doc#info>
+      // API key: qvuc34onciim5xvc
+      //WWC2MYYCM6J5	石家庄	Shijiazhuang	中国	CN	河北	Hebei	石家庄	Shijiazhuang	Asia/Shanghai	中国地级市
+      var UID = "U081C2ABCA";
+      var KEY = "qvuc34onciim5xvc";
+      var API = "https://api.seniverse.com/v3/weather/daily.json";
+      var LOCATION = "Shijiazhuang";
+      // 获取当前时间戳
+      var ts = Math.floor((new Date()).getTime() / 1000);
+      // 构造验证参数字符串
+      var str = "ts=" + ts + "&uid=" + UID;
+      // 使用 HMAC-SHA1 方式，以 API 密钥（key）对上一步生成的参数字符串（raw）进行加密
+      // 并将加密结果用 base64 编码，并做一个 urlencode，得到签名 sig
+      var sig = CryptoJS.HmacSHA1(str, KEY).toString(CryptoJS.enc.Base64);
+      sig = encodeURIComponent(sig);
+      str = str + "&sig=" + sig;
+      // 构造最终请求的 url
+      // var url = API + "?location=" + LOCATION + "&" + str + "&callback=jsonpCallback";
+      var url = API + "?location=" + LOCATION + "&" + str;
+      // 向 HTML 中动态插入 script 标签，通过 JSONP 的方式进行调用
+      $.ajax({
+        url: url,
+        type: 'get',
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        success: function(json){
+          var data = json['results'][0]['daily'];
+          var catagories = [];
+          var high = [];
+          var low = [];
+          data.forEach(function(item){
+            catagories.push(item['date']);
+            high.push(parseInt(item['high']));
+            low.push(parseInt(item['low']));
+          })
+          // update table data
+          for(var i=0;i<data.length;i++){
+            addColumn('weather-table',[
+              data[i]['date'],
+              data[i]['text_day'],
+              data[i]['text_night'],
+              data[i]['high'],
+              data[i]['low'],
+              data[i]['precip'],
+              data[i]['wind_speed'],
+              data[i]['wind_direction']
+            ])
+          }
+          console.log(data);
+          // update chart
+          var options = {
+              chart: {
+                  type: 'spline',
+                  backgroundColor: 'rgba(131, 132, 139, 0.5)',
+
+              },
+              title: {
+                  text: '未来3日气温变化',
+                  style: {
+                    color: '#fff'
+                  }
+              },
+              legend: {
+                verticalAlign: 'bottom',
+                itemStyle: {
+                  color: '#fff'
+                }
+
+              },
+              // plotOptions: {
+              //     series: {
+              //         pointStart: Date.UTC(2017,11,26),
+              //         pointInterval: 3600 * 1000
+              //     }
+              // },
+              xAxis: {
+                  crosshairs: {
+                    dashStyle: 'Solid'
+                  },
+                  labels: {
+                    style: {
+                      color: '#fff'
+                    }
+                  },
+                  categories: catagories
+                  // type: 'datetime',
+                  // dateTimeLabelFormats: {
+                  //     hour: '%H时'
+                  // }
+              },
+              yAxis: {
+                  title: {
+                      text: '温度(℃)',
+                      style: {
+                        color: '#fff'
+                      }
+
+                  },
+                  labels: {
+                    style: {
+                      color: '#fff'
+                    }
+                  }
+              },
+              series: [{
+                  name: '最高温度(℃)',
+                  color: '#F78723',
+                  data: high
+              },{
+                  name: '最低温度(℃)',
+                  color: '#27A5F9',
+                  data: low
+              }],
+              credits: {
+                text: '石家庄气象局',
+                href: 'http://www.nmc.gov.cn/publish/forecast/AHE/shi-jia-zhuang.html'
+              },
+              tooltip: {
+                shared: true,
+                crosshairs: {
+                  width: 1,
+                  color: 'rgba(255,255,255,0.5)'
+                },
+                xDateFormat: '%Y-%m-%d %H:%M',
+                // headerFormat: '<span style="font-size: 20px">{point.key}</span><br/>',
+                // formatter: function () {
+                //   return 'The value for <b>' + this.x;
+                // }
+              }
+          };
+          // 图表初始化函数
+          var chart = Highcharts.chart('container', options);
+        },
+        error: function(error) {
+          console.log(error)
+        }
+      });
+    </script>
+  </body>
+</html>

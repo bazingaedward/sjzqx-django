@@ -22,6 +22,7 @@ urlpatterns += i18n_patterns(
     url(r'^plot/$', 'weather.views.plot'),
     url(r'^realtime/$', 'weather.views.realtime'),
     url(r'^trend/$', 'weather.views.trend'),
+    url(r'^air/$', 'weather.views.air'),
     url(r'^realtime_latest/$', 'weather.views.realtime_latest'),
     url(r'^realtime_data/(.*)', 'weather.views.realtime_data'),
     url(r'^radar/$', 'weather.views.radar'),

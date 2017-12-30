@@ -1,0 +1,110 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="zh">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>空气质量</title>
+
+  </head>
+  <body>
+    <!-- 图表容器 DOM -->
+    <div id="container" style="width: 100%;"></div>
+    <script type="text/javascript" src="{% static 'weather/jquery-easyui-1.5.2/jquery.min.js' %}"></script>
+    <!-- 引入 highcharts.js -->
+    <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+    <script src = "https://code.highcharts.com/highcharts-more.js"></script>
+    <script src = "https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script>
+
+      $.ajax({
+        url: 'http://www.pm25.in/api/querys/pm2_5.json?city=shijiazhuang&token=5j1znBVAsnSf5xQyNQyq&stations=no',
+        type: 'get',
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        success: function(data){
+          var options = {
+              chart: {
+                  type: 'solidgauge'
+              },
+              title: {
+                  text: null
+              },
+              credits: {
+                text: '',
+                href: 'http://www.pm25.in/'
+              },
+              tooltip: {
+                enabled: false
+              },
+              pane: {
+                center: ['50%', '50%'],
+                startAngle: -170,
+                endAngle: 170,
+                background: {
+                  backgroundColor: (
+                     Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                  innerRadius: '70%',
+                  outerRadius: '100%',
+                  shape: 'arc'
+               }
+              },
+              yAxis: {
+                minorTickInterval: null,
+                tickPositions: [0,50,100,150,200,300,500],
+                tickPosition: 'outside',
+                // tickWidth: 0,
+                stops: [
+                  [0.1, '#55BF3B'],
+                  [0.2, '#ffec3d'],
+                  [0.3, '#ffa940'],
+                  [0.4, '#ff7a45'],
+                  [0.6, '#ff4d4f'],
+                  [1, '#520339']
+                ],
+                min: 0,
+                max: 500,
+                labels: {
+                  distance: 30,
+                  style: {
+                    color: '#aaa',
+                    fontSize: "15px"
+                  }
+                },
+              },
+              plotOptions: {
+                  solidgauge: {
+                      innerRadius: '70%',
+                      dataLabels: {
+                          y: -60,
+                          borderWidth: 0,
+                          useHTML: true,
+                          style: {
+                            fontSize: "50px"
+                          }
+                      }
+                  }
+               },
+              series: [{
+                data: [data[0]['aqi']],
+                dataLabels:{
+                        format: '<div style = "text-align:center"><span style = "color:' +
+                           ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') +
+                           '">{y}</span><br/>' +
+                           '<div style = "font-size:20px;color:silver">石家庄</div>'+
+                           '<div style = "font-size:30px;color:black;text-align:center">'+
+                           data[0]['quality']+'</div></div>'
+                     }
+              }]
+          };
+          // 图表初始化函数
+          var chart = Highcharts.chart('container', options);
+
+        },
+        error: function(error) {
+          console.log(error)
+        }
+      });
+    </script>
+  </body>
+</html>
